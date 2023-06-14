@@ -16,7 +16,7 @@ require("dotenv").config();
 
 const bcryptSalt = bcrypt.genSaltSync(10);
 const jwtSecret = "WU6Ex4KaMD1rT85GVXxqLTq5G&UK8mPqYwUe$RMm";
-const bucket = process.env.S3_BUCKET;
+const bucket = process.env.BUCKET_NAME;
 
 const app = express();
 
@@ -27,16 +27,16 @@ app.use(cookieParser());
 app.use(
   cors({
     credentials: true,
-    origin: process.env.CLIENT_BASE_URL,
+    origin: process.env.FRONTEND_BASE_URL,
   })
 );
 
 async function uploadToS3(path, originalFilename, mimetype) {
   const client = new S3Client({
-    region: process.env.S3_REGION,
+    region: process.env.REGION,
     credentials: {
-      accessKeyId: process.env.S3_ACCESS_KEY,
-      secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
+      accessKeyId: process.env.ACCESS_KEY,
+      secretAccessKey: process.env.SECRET_KEY,
     },
   });
   const parts = originalFilename.split(".");
