@@ -64,7 +64,14 @@ function getUserDataFromToken(req) {
 }
 
 app.get("/api/", (req, res) => {
-  mongoose.connect(process.env.MONGO_URL);
+  // troubleshoot db connection
+  mongoose.connect(process.env.MONGO_URL)
+    .then(() => {
+      console.log('Database connection successful');
+    })
+    .catch((err) => {
+      console.error('Database connection error');
+    });
   res.json("test ok");
 });
 
