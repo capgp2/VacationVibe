@@ -1,0 +1,22 @@
+- name: Clone Frontend Repository
+  git:
+    repo: "{{ frontend_repository }}"
+    dest: "{{ frontend_directory }}"
+    version: "{{ frontend_version }}"
+    update: yes
+  register: frontend_repo
+
+- name: Install Frontend Dependencies
+  command:
+    cmd: "cd {{ frontend_directory }} && npm install"
+    register: frontend_install
+
+- name: Build Frontend
+  command:
+    cmd: "cd {{ frontend_directory }} && npm run build"
+    register: frontend_build
+
+- name: Serve Frontend
+  command:
+    cmd: "cd {{ frontend_directory }} && npm run serve"
+    register: frontend_serve

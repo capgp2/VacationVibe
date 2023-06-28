@@ -1,0 +1,3 @@
+backend_repository: "https://github.com/Zara-Ray/VacationVibe-Backend.git"
+backend_directory: "/home/ubuntu/vacationvibe-backend"
+backend_docker_image: "vacationvibe-backend"
