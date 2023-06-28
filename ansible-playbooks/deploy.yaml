@@ -1,0 +1,74 @@
+---
+- name: Deploy VacationVibe app
+  hosts: all
+  become: true
+  vars:
+    mongodb_uri: "mongodb://localhost:27017/vacationvibe"
+
+  tasks:
+#    - name: Install Node.js and npm
+#      become: yes
+#      apt:
+#        update_cache: yes
+#        cache_valid_time: 86400
+#        name:
+#          - nodejs
+#          - npm
+#        state: present
+
+    - name: Install required packages
+      become: yes
+      apt:
+        update_cache: yes
+        cache_valid_time: 86400
+        name:
+          - python-apt
+          - mongodb
+        state: present
+
+    - name: Clone the repository
+      git:
+        repo: https://github.com/Zara-Ray/VacationVibe.git
+        dest: /opt/VacationVibe
+        version: main
+        force: yes
+
+    - name: Install frontend dependencies
+      shell: cd /opt/VacationVibe/frontend && npm install
+
+    - name: Set up frontend environment variables
+      copy:
+        src: "~/VacationVibe/frontend/.env.example"
+        dest: /opt/VacationVibe/frontend/.env
+
+    - name: Build the frontend
+      shell: cd /opt/VacationVibe/frontend && npm run build
+
+    - name: Install backend dependencies
+      shell: cd /opt/VacationVibe/backend && npm install
+
+    - name: Set up backend environment variables
+      copy:
+        src: "~/VacationVibe/backend/.env.example"
+        dest: /opt/VacationVibe/backend/.env
+
+
+    - name: Install mongoose package
+      npm:
+        name: mongoose
+        path: /opt/VacationVibe/backend
+
+    - name: Start the app
+      command: npm start
+      args:
+        chdir: /opt/VacationVibe/backend
+        executable: /bin/bash -c "node index.js"
+      environment:
+        MONGODB_URI: "{{ mongodb_uri }}"
+      register: npm_start_result
+
+
+    - name: Check if app started successfully
+      fail:
+        msg: "App startup failed with error: {{ npm_start_result.stderr }}"
+      when: npm_start_result.rc != 0
