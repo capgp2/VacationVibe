@@ -1,0 +1,7 @@
+vpc_cidr_block      = "10.0.0.0/16"
+subnet_cidr_block   = "10.0.10.0/24"
+subnet_cidr_block-2 = "10.0.8.0/24"
+avail_zone          = "us-east-1a"
+avail_zone-2        = "us-east-1b"
+env_prefix          = "swarm"
+instance_type       = "t2.micro"
