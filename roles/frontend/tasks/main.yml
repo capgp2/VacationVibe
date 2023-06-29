@@ -18,5 +18,5 @@
 
 - name: Serve Frontend
   command:
-    cmd: "cd {{ frontend_directory }} && npm run serve"
+    cmd: "cd {{ frontend_directory }} && npm run dev"
     register: frontend_serve
