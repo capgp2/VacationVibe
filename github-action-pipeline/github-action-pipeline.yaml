@@ -1,4 +1,4 @@
-# !created by Abiola on 07-06-2023
+
 name: Vacation app deploy to swarm cluster
 on:
   push:
