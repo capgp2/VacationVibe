@@ -1,0 +1,17 @@
+- name: Clone Backend Repository
+  git:
+    repo: "{{ backend_repository }}"
+    dest: "{{ backend_directory }}"
+    version: "{{ backend_version }}"
+    update: yes
+  register: backend_repo
+
+- name: Build Backend Docker Image
+  command:
+    cmd: "docker build -t {{ backend_docker_image }} {{ backend_directory }}"
+    register: backend_build
+
+- name: Run Backend Docker Container
+  command:
+    cmd: "docker run -d -p 8080:8080 --name {{ backend_docker_image }} {{ backend_docker_image }}"
+    register: backend_run

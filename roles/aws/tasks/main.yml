@@ -1,0 +1,74 @@
+- name: Create VPC
+  ec2_vpc_net:
+    name: VacationVibe-VPC
+    cidr_block: "10.0.0.0/16"
+    region: "{{ aws_region }}"
+    state: present
+  register: vpc
+
+- name: Create Internet Gateway
+  ec2_vpc_igw:
+    vpc_id: "{{ vpc.id }}"
+    region: "{{ aws_region }}"
+    state: present
+  register: igw
+
+- name: Create Route Table
+  ec2_vpc_route_table:
+    vpc_id: "{{ vpc.id }}"
+    region: "{{ aws_region }}"
+    name: VacationVibe-RouteTable
+    state: present
+  register: route_table
+
+- name: Create Route to Internet Gateway
+  ec2_vpc_route:
+    region: "{{ aws_region }}"
+    vpc_id: "{{ vpc.id }}"
+    route_table_id: "{{ route_table.route_table_id }}"
+    dest_cidr_block: "0.0.0.0/0"
+    gateway_id: "{{ igw.gateway_id }}"
+    state: present
+
+- name: Create Subnet
+  ec2_vpc_subnet:
+    vpc_id: "{{ vpc.id }}"
+    region: "{{ aws_region }}"
+    cidr: "10.0.1.0/24"
+    az: "{{ aws_region }}a"
+    state: present
+  register: subnet
+
+- name: Create Security Group
+  ec2_group:
+    name: VacationVibe-SecurityGroup
+    description: Security group for VacationVibe
+    vpc_id: "{{ vpc.id }}"
+    region: "{{ aws_region }}"
+    rules:
+      - proto: tcp
+        from_port: 80
+        to_port: 80
+        cidr_ip: 0.0.0.0/0
+      - proto: tcp
+        from_port: 22
+        to_port: 22
+        cidr_ip: "{{ ansible_host }}/32"
+      - proto: tcp
+        from_port: 2377
+        to_port: 2377
+        cidr_ip: "{{ ansible_host }}/32"
+      - proto: tcp
+        from_port: 7946
+        to_port: 7946
+        cidr_ip: "{{ ansible_host }}/32"
+      - proto: udp
+        from_port: 7946
+        to_port: 7946
+        cidr_ip: "{{ ansible_host }}/32"
+      - proto: tcp
+        from_port: 4789
+        to_port: 4789
+        cidr_ip: "{{ ansible_host }}/32"
+    state: present
+  register: security_group

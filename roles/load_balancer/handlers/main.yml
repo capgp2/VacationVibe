@@ -1,0 +1,4 @@
+- name: Restart Load Balancer Service
+  systemd:
+    name: load_balancer
+    state: restarted
