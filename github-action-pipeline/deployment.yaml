@@ -1,4 +1,4 @@
-# !created by Abiola on 07-06-2023
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
