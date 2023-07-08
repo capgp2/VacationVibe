@@ -14,7 +14,7 @@ all:
 
 ------------------------------------------------
 - name: Load Terraform Output
-  hosts: localhost
+  hosts: all
   gather_facts: false
   tasks:
     - name: Retrieve Terraform Output
