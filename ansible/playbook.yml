@@ -1,6 +1,27 @@
 ---
 - hosts: all
   become: true
+  tasks:
+    - name: Disable SSH host key checking
+      lineinfile:
+        path: /etc/ansible/ansible.cfg
+        line: "host_key_checking = False"
+        state: present
+
+    - name: Create Ansible User
+      user:
+        name: ansible
+        state: present
+        shell: /bin/bash
+        createhome: yes
+      become: true
+
+    - name: Set up SSH access for Ansible User
+      authorized_key:
+        user: ansible
+        state: present
+        key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+      become: true
 
 - hosts: manager
   become: true
