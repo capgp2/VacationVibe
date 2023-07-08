@@ -9,6 +9,19 @@
         join_token: "{{ hostvars['<manager_node_ip>']['swarm_info']['swarm_facts']['JoinTokens']['Worker'] }}"
         remote_addrs: [ 'manager-node:2377' ]
 
+    - name: Update apt-cache
+      apt:
+        update_cache: yes
+      when: ansible_distribution == 'Ubuntu'
+
+    - name: Install Python 
+      apt:
+        name: python
+        state: present
+      when: ansible_distribution == 'Ubuntu'
+
+      
+
  # roles:
  #   - roles/aws
  #   - roles/backend
