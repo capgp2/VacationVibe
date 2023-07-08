@@ -9,8 +9,6 @@
         join_token: "{{ hostvars['<manager_node_ip>']['swarm_info']['swarm_facts']['JoinTokens']['Worker'] }}"
         remote_addrs: [ 'manager-node:2377' ]
 
-  vars:
-
  # roles:
  #   - roles/aws
  #   - roles/backend
