@@ -11,3 +11,40 @@ all:
     ansible_ssh_private_key_file: "~/.ssh/id_rsa"
     ansible_ssh_common_args: "-o StrictHostKeyChecking=no"
     ansible_python_interpreter: "/usr/bin/python3"
+
+------------------------------------------------
+- name: Load Terraform Output
+  hosts: localhost
+  gather_facts: false
+  tasks:
+    - name: Retrieve Terraform Output
+      command:
+        cmd: "terraform output -json -state=/path/to/terraform.tfstate"
+      register: tf_output
+
+    - name: Set dynamic inventory
+      set_fact:
+        inventory_data: |
+          all:
+            children:
+              manager:
+                hosts:
+                  {% for ip in tf_output.stdout | from_json | default({})['manager_ips'] | default([]) %}
+                  "{{ ip }}":
+                  {% endfor %}
+              worker:
+                hosts:
+                  {% for ip in tf_output.stdout | from_json | default({})['worker_ips'] | default([]) %}
+                  "{{ ip }}":
+                  {% endfor %}
+          vars:
+            ansible_user: ansible
+            ansible_ssh_private_key_file: "~/.ssh/id_rsa"
+            ansible_ssh_common_args: "-o StrictHostKeyChecking=no"
+            ansible_python_interpreter: "/usr/bin/python3"
+
+    - name: Write dynamic inventory to file
+      copy:
+        content: "{{ inventory_data }}"
+        dest: "/path/to/inventory.yml"
+        mode: 0644
