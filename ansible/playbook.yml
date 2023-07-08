@@ -26,11 +26,9 @@
 - hosts: manager
   become: true
   roles: 
-  tasks:
-    - manager
+     - manager
 
 - hosts: worker
   become: true
   roles: 
-  tasks:
     - worker
