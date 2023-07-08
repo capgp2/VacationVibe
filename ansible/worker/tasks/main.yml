@@ -1,0 +1,7 @@
+# task file for joining swarm
+
+- name: Add Worker to Manager Node
+  docker_swarm: 
+    state: join
+    advertise_addr: worker
+    join_token: 
