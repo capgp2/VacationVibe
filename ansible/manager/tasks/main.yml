@@ -5,18 +5,20 @@
     state: present
 
 - name: Get info
+  docker_swarm_info:
+  register: swarm_info
 
 
-    - name: Initialize Docker Swarm
-      command: docker swarm init --advertise-addr {{ ansible_host }}
-      register: swarm_init_result
-      changed_when: "swarm_init_result.stdout.find('Swarm initialized') != -1"
+#    - name: Initialize Docker Swarm
+#      command: docker swarm init --advertise-addr {{ ansible_host }}
+#      register: swarm_init_result
+#      changed_when: "swarm_init_result.stdout.find('Swarm initialized') != -1"
 
-    - name: Get Swarm Join Token
-      command: docker swarm join-token -q worker
-      register: swarm_join_token
-      changed_when: false
+#    - name: Get Swarm Join Token
+#      command: docker swarm join-token -q worker
+#      register: swarm_join_token
+#      changed_when: false
 
-    - name: Output Swarm Join Token
-      debug:
-        msg: "Swarm join token: {{ swarm_join_token.stdout }}"
+#    - name: Output Swarm Join Token
+#      debug:
+#        msg: "Swarm join token: {{ swarm_join_token.stdout }}"
