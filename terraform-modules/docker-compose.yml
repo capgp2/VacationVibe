@@ -1,5 +1,5 @@
 # backend image container
-FROM node:12-alpine
+FROM node:16.20.0-alpine3.18
 RUN apk add --no-cache python2 g++ make
 WORKDIR /app
 COPY ..
