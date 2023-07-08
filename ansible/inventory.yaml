@@ -4,7 +4,7 @@
   tasks:
     - name: Retrieve Terraform Output
       command:
-        cmd: "terraform output -json -state=/path/to/terraform.tfstate"
+        cmd: "terraform output -json -state=/terraform-modules/terraform.tfstate"
       register: tf_output
 
     - name: Set dynamic inventory
@@ -31,5 +31,5 @@
     - name: Write dynamic inventory to file
       copy:
         content: "{{ inventory_data }}"
-        dest: "/path/to/inventory.yml"
+        dest: "/ansible/inventory.yml"
         mode: 0644
