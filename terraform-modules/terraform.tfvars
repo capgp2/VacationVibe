@@ -5,3 +5,7 @@ avail_zone          = "us-east-1a"
 avail_zone-2        = "us-east-1b"
 env_prefix          = "swarm"
 instance_type       = "t2.micro"
+key_name            = "vacation-vibe"
+swarm_name          = {
+                        type = "list" 
+                        default =["master", "master", "master", "worker", "worker"]}

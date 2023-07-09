@@ -1,10 +1,10 @@
 # !created by Abiola on 07-06-2023
-FROM node:14-alpine
+FROM node:16.20.0-alpine3.18
 
 # Create app directory
-WORKDIR /usr/src/app
+WORKDIR /backend
 
-COPY . .
+COPY . /backend
 
 RUN npm install
 
