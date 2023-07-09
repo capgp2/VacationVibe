@@ -1,4 +1,0 @@
-- name: Restart Frontend Service
-  systemd:
-    name: frontend
-    state: restarted

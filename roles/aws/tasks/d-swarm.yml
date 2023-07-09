@@ -1,8 +1,0 @@
-- name: Provision Docker Swarm Nodes
-  command: "docker swarm init --advertise-addr {{ ansible_host }}"
-  register: swarm
-  when: inventory_hostname == groups['all'][0]
-
-- name: Join Swarm Worker Nodes
-  command: "docker swarm join --token {{ swarm.stdout_lines[1] }} {{ swarm.stdout_lines[0] }}:2377"
-  when: inventory_hostname != groups['all'][0]
