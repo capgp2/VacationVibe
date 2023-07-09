@@ -1,2 +1,0 @@
-load_balancer_security_group: "sg-0d5f3f5a2e308c635"
-load_balancer_target_group_arn: "arn:aws:elasticloadbalancing:us-east-1:123456789012:targetgroup/VacationVibe-TargetGroup/1234567890123456"
