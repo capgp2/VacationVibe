@@ -1,8 +1,6 @@
+name: Build
 on:
-  push:
-    branches: [ main ]
-  pull_request:
-  workflow_dispatch:
+  workflow_call:
 
 jobs:
   build:
@@ -25,7 +23,7 @@ jobs:
       with:
         aws-access-key-id: ${{ secrets.ACCESS_KEY }}
         aws-secret-access-key: ${{ secrets.SECRET_KEY }}
-        aws-region: us-west-1
+        aws-region: us-east-1
 
     - name: Login to Amazon ECR
       id: login-ecr
@@ -53,10 +51,9 @@ jobs:
     defaults:
       run:
         shell: bash
-        working-directory: ./terraform/envs/dev
+        working-directory: ./terraform/envs/stage
     environment: 
       name: Development
-      url: 'http://dev.sarahaligbe.me'
     steps:
       - name: Terraform init
         id: init
@@ -85,7 +82,6 @@ jobs:
         working-directory: ./terraform/envs/stage
     environment: 
       name: Staging
-      url: 'http://test.sarahligbe.me'
     steps:
       - name: Terraform init
         id: init
@@ -113,7 +109,7 @@ jobs:
         working-directory: ./terraform/envs/stage
     environment: 
       name: Production
-      url: 'http://sarahaligbe.me'
+      url: 'https://philemonnwanne.me'
     steps:
       - name: Deploy
         run: echo Deploying to production

@@ -1,0 +1,20 @@
+name: "Infracost analysis and terraform deployment"
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+
+  infracost:
+    uses: capgp2/VacationVibe/.github/workflows/infracost.yml@main
+    with:
+      # need to specify working-directory as that's where the terraform files live in the source code
+      working-directory: ./terraform/envs/stage
+    secrets: inherit
+
+  terraform:
+    needs: infracost
+    uses: capgp2/VacationVibe/.github/workflows/build.yml@main
+    secrets: inherit
