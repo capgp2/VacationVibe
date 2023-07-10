@@ -1,4 +1,4 @@
-name: Build
+name: "Build and Infrastructure"
 on:
   workflow_call:
 
@@ -12,11 +12,6 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v2
-
-    - name: Setup Terraform with specified version on the runner
-      uses: hashicorp/setup-terraform@v2
-      with:
-        terraform_version: 1.4.0
 
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
@@ -33,7 +28,7 @@ jobs:
       id: build-image
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-        ECR_REPOSITORY: ${{ secrets.REPO_NAME }}
+        ECR_REPOSITORY: backend
         IMAGE_TAG: ${{ github.run_number }}
       run: |
         # Build a docker container and push it to ECR 
@@ -55,6 +50,14 @@ jobs:
     environment: 
       name: Development
     steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup Terraform with specified version on the runner
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.4.0
+
       - name: Terraform init
         id: init
         run: terraform init 
@@ -83,6 +86,14 @@ jobs:
     environment: 
       name: Staging
     steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup Terraform with specified version on the runner
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.4.0
+
       - name: Terraform init
         id: init
         run: terraform init 

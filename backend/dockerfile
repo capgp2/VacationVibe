@@ -2,7 +2,7 @@ FROM node:16.20.0-alpine3.18@sha256:f711d8a40d3515d7d44e344306382179fc8bfc4fe75f
 
 WORKDIR /backend
 
-COPY package*.json .
+COPY package*.json /backend/
 
 RUN npm install
 
