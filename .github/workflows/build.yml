@@ -46,7 +46,7 @@ jobs:
     defaults:
       run:
         shell: bash
-        working-directory: terraform/envs/stage
+        #working-directory: terraform/envs/stage
     environment: 
       name: Development
     steps:
@@ -60,11 +60,15 @@ jobs:
 
       - name: Terraform init
         id: init
-        run: terraform init 
+        run: |
+          cd terraform/envs/stage
+          terraform init 
         
       - name: Terraform plan
         id: plan
-        run: terraform plan -input=false
+        run: |
+          cd terraform/envs/stage
+          terraform plan -input=false
       
       - name: Terraform Plan Status
         if: steps.plan.outcome == 'failure'
@@ -72,7 +76,9 @@ jobs:
       
       - name: Terraform apply
         id: apply
-        run: terraform apply -auto-approve -input=false
+        run: |
+          cd terraform/envs/stage
+          terraform apply -auto-approve -input=false
 
   DeployStaging:
     name: Deploy to Staging 
@@ -82,7 +88,7 @@ jobs:
     defaults:
       run:
         shell: bash
-        working-directory: terraform/envs/stage
+        #working-directory: terraform/envs/stage
     environment: 
       name: Staging
     steps:
@@ -96,11 +102,15 @@ jobs:
 
       - name: Terraform init
         id: init
-        run: terraform init 
+        run: |
+          cd terraform/envs/stage
+          terraform init 
         
       - name: Terraform plan
         id: plan
-        run: terraform plan -input=false
+        run: |
+          cd terraform/envs/stage
+          terraform plan -input=false
       
       - name: Terraform Plan Status
         if: steps.plan.outcome == 'failure'
@@ -108,7 +118,9 @@ jobs:
       
       - name: Terraform apply
         id: apply
-        run: terraform apply -auto-approve -input=false
+        run: |
+          cd terraform/envs/stage
+          terraform apply -auto-approve -input=false
 
   DeployProd:
     name: Deploy to Production 
@@ -117,7 +129,7 @@ jobs:
     defaults:
       run:
         shell: bash
-        working-directory: terraform/envs/stage
+        #working-directory: terraform/envs/stage
     environment: 
       name: Production
       url: 'https://philemonnwanne.me'
