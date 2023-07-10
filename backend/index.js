@@ -12,11 +12,12 @@ const mime = require("mime-types");
 const User = require("./models/User");
 const Place = require("./models/Place");
 const Booking = require("./models/Booking");
+const { constants } = require("buffer");
 require("dotenv").config();
 
 const bcryptSalt = bcrypt.genSaltSync(10);
-const jwtSecret = "WU6Ex4KaMD1rT85GVXxqLTq5G&UK8mPqYwUe$RMm";
-const bucket = process.env.BUCKET_NAME;
+const jwtSecret = process.env.JWT_TOKEN;
+const bucket = process.env.S3_BUCKET_NAME;
 
 const app = express();
 
@@ -24,19 +25,31 @@ app.use(express.json());
 
 app.use(cookieParser());
 
-app.use(
-  cors({
-    credentials: true,
-    origin: process.env.FRONTEND_BASE_URL,
-  })
-);
+// 👇️ specify origins to allow
+const whitelist = ['https://frontend.philemonnwanne.me', 'http://127.0.0.1:5173'];
+
+// ✅ Enable pre-flight requests
+// app.options('*', cors());
+
+const corsOptions = {
+  credentials: true,
+  origin: (origin, callback) => {
+    if (whitelist.indexOf(origin) !== -1 || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  }
+}
+
+app.use(cors(corsOptions));
 
 async function uploadToS3(path, originalFilename, mimetype) {
   const client = new S3Client({
-    region: process.env.REGION,
+    region: process.env.AWS_REGION,
     credentials: {
-      accessKeyId: process.env.ACCESS_KEY,
-      secretAccessKey: process.env.SECRET_KEY,
+      accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
     },
   });
   const parts = originalFilename.split(".");
@@ -64,14 +77,7 @@ function getUserDataFromToken(req) {
 }
 
 app.get("/api/", (req, res) => {
-  // troubleshoot db connection
-  mongoose.connect(process.env.MONGO_URL)
-    .then(() => {
-      console.log('Database connection successful');
-    })
-    .catch((err) => {
-      console.error('Database connection error');
-    });
+  mongoose.connect(process.env.MONGO_URL);
   res.json("test ok");
 });
 
@@ -205,7 +211,7 @@ app.get("/api/user-places", (req, res) => {
   mongoose.connect(process.env.MONGO_URL);
   const { token } = req.cookies;
   jwt.verify(token, jwtSecret, {}, async (err, userData) => {
-    const { id } = userData;
+    const { id } = userData || {};
     res.json(await Place.find({ owner: id }));
   });
 });
