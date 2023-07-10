@@ -51,7 +51,7 @@ jobs:
     defaults:
       run:
         shell: bash
-        #working-directory: terraform/envs/devs
+        #working-directory: terraform/envs/dev
     environment: 
       name: Development
     steps:
