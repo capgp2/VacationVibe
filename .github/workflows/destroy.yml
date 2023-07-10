@@ -8,7 +8,7 @@ jobs:
     env:  
  # Credentials for deployment to AWS
       AWS_ACCESS_KEY_ID: ${{ secrets.ACCESS_KEY }}
-      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_KEY }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.SECRET_KEY }}
       AWS_DEFAULT_REGION: us-east-1
     name: 'Terraform'
     runs-on: ubuntu-latest
