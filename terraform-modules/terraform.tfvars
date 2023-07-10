@@ -7,5 +7,9 @@ env_prefix          = "swarm"
 instance_type       = "t2.micro"
 key_name            = "vacation-vibe"
 swarm_name          = {
-                        type = "list" 
-                        default =["master", "master", "master", "worker", "worker"]}
+    "0" = "master-node-1"
+    "1" = "master-node-2"
+    "2" = "master-node-3"
+    "3" = "worker-node-1"
+    "4" = "worker-node-2"
+  }
