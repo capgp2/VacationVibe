@@ -15,7 +15,7 @@ jobs:
       # Required to post comments
       pull-requests: write
     env:
-      TF_ROOT: ./terraform/envs/stage
+      TF_ROOT: terraform/envs/stage
 
     steps:
       # If you use private modules, add an environment variable or secret

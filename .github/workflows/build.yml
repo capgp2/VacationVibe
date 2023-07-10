@@ -51,7 +51,7 @@ jobs:
     defaults:
       run:
         shell: bash
-        working-directory: ./terraform/envs/stage
+        working-directory: terraform/envs/stage
     environment: 
       name: Development
     steps:
@@ -79,7 +79,7 @@ jobs:
     defaults:
       run:
         shell: bash
-        working-directory: ./terraform/envs/stage
+        working-directory: terraform/envs/stage
     environment: 
       name: Staging
     steps:
@@ -106,7 +106,7 @@ jobs:
     defaults:
       run:
         shell: bash
-        working-directory: ./terraform/envs/stage
+        working-directory: terraform/envs/stage
     environment: 
       name: Production
       url: 'https://philemonnwanne.me'
