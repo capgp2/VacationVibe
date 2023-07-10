@@ -5,9 +5,15 @@ on:
   pull_request:
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
 
   infracost:
+    permissions:
+      contents: write
+      pull-requests: write
     uses: capgp2/VacationVibe/.github/workflows/infracost.yml@main
     with:
       # need to specify working-directory as that's where the terraform files live in the source code
@@ -17,4 +23,7 @@ jobs:
   terraform:
     needs: infracost
     uses: capgp2/VacationVibe/.github/workflows/build.yml@main
+    with:
+      # need to specify working-directory as that's where the terraform files live in the source code
+      working-directory: ./terraform/envs/stage
     secrets: inherit
