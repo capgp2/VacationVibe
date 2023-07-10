@@ -1,6 +1,6 @@
 # VacationVibe
 
-[![Infracost analysis and terraform deployment](https://github.com/capgp2/VacationVibe/actions/workflows/caller.yml/badge.svg)](https://github.com/capgp2/VacationVibe/actions/workflows/caller.yml)
+[![Infracost & Terraform Deployment](https://github.com/capgp2/VacationVibe/actions/workflows/caller.yml/badge.svg)](https://github.com/capgp2/VacationVibe/actions/workflows/caller.yml)
 
 
 This 👆🏾 is the starting `codebase` that will be used for the [Altschool](https://www.altschoolafrica.com/) capstone group 2 project.
