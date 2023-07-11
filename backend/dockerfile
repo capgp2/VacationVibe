@@ -1,0 +1,13 @@
+FROM node:16.20.0-alpine3.18@sha256:f711d8a40d3515d7d44e344306382179fc8bfc4fe75f1a77b27a686a88649430
+
+WORKDIR /backend
+
+COPY package*.json .
+
+RUN npm install
+
+COPY . .
+
+USER node
+
+CMD ["npm", "start"]
