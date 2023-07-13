@@ -16,7 +16,7 @@ To run the vacation-vibe app locally, follow these steps
 
 Clone the repository
 
-```sh
+```ruby
 git clone https://github.com/capgp2/VacationVibe
 ```
 
